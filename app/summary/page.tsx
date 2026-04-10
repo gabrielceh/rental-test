@@ -1,10 +1,10 @@
 'use client';
+import { useEffect } from 'react';
 
 import { useAppSelector } from '@/core/store/hooks';
-import { BackHeader, Title } from '@/modules/shared/ui';
-import BookingSummary from '@/modules/vehicles/presentation/components/BookinSummary';
+import { BackHeader } from '@/modules/shared/ui';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { BookingSummary } from '@/modules/vehicles/presentation/components';
 
 export default function SummaryPage() {
   const router = useRouter();
