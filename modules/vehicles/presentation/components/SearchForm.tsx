@@ -4,6 +4,8 @@ import { useState } from 'react';
 
 import { Input, Button } from '@/modules/shared/ui';
 import { useRouter } from 'next/navigation';
+import { validateDateRange } from '@/modules/shared/utils/validate-date-range.utils';
+import { toast } from 'sonner';
 
 const initialForm = {
   location: '',
@@ -17,10 +19,18 @@ export default function SearchForm() {
   const router = useRouter();
 
   const onSearch = () => {
+    if (!form.location || !form.pickup || !form.returnDate) {
+      toast('Por favor, rellena todos los campos');
+      return;
+    }
+
+    const validateDates = validateDateRange(form.pickup, form.returnDate);
+    if (!validateDates.isValid) {
+      toast(validateDates.error);
+      return;
+    }
     console.log('Searching for vehicles...');
-    console.log('Location:', form.location);
-    console.log('Pickup:', form.pickup);
-    console.log('Return date:', form.returnDate);
+    console.log({ form });
 
     router.push('/results');
   };
