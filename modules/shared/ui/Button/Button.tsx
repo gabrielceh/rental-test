@@ -12,16 +12,15 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({variant = "primary", ...props}, ref) => {
 
     return (
-      <button 
+      <button
         ref={ref}
-        {...props} 
-        className={
-          clsx(
-            variantColoir(variant),
-            'rounded-md px-3 py-2 md:text-sm cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 transition-all'
-          )
-        }
-      />  
+        {...props}
+        className={clsx(
+          variantColoir(variant),
+          'rounded-md px-3 py-2 md:text-sm cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 transition-all',
+          props.className,
+        )}
+      />
     );
   }
 )
