@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { validateDateRange } from '@/modules/shared/utils/validate-date-range.utils';
 import { toast } from 'sonner';
 import { setSearchData } from '../stores/vehicles.slice';
+import { isBeforeToday } from '@/modules/shared/utils/is-before-today.utils';
 
 const initialForm = {
   location: '',
@@ -23,6 +24,12 @@ export default function SearchForm() {
   const onSearch = () => {
     if (!form.location || !form.pickup || !form.returnDate) {
       toast('Por favor, rellena todos los campos');
+      return;
+    }
+
+    const beforeToday = isBeforeToday(form.pickup);
+    if (beforeToday) {
+      toast('La fecha de recogida no puede ser anterior a la fecha actual');
       return;
     }
 
