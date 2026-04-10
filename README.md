@@ -1,36 +1,115 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Browser Travel Solutions - Frontend (Rental Test)
 
-## Getting Started
+Este es un proyecto de prueba técnica para Browser Travel Solutions, hecho con Next.js, React, TypeScript, Redux y TailwindCSS.
 
-First, run the development server:
+La aplicación simula un flujo básico de alquiler de vehículos, desde la búsqueda hasta la confirmación final.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## Flujo de la aplicación
+
+1. **Búsqueda**
+El usuario puede buscar vehículos disponibles según criterios básicos.
+
+2. **Visualización de resultados**
+Se muestra un listado de vehículos con información relevante.
+
+3. **Selección de vehículo**
+El usuario puede elegir un vehículo para continuar el proceso.
+
+4. **Resumen final**
+Se muestra un resumen final con los datos del vehículo seleccionado.
+
+---
+
+## Cómo ejecutar el proyecto
+
+Requisitos: Node.js 18 o superior.
+
+1. Instala dependencias:
+
+``` bash
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Inicia el proyecto en desarrollo:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+``` bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Abre en el navegador:
 
-## Learn More
+``` bash
+http://localhost:3000
+```
 
-To learn more about Next.js, take a look at the following resources:
+4. (Opcional) Build de producción:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+``` bash
+npm run build && npm run start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Arquitectura del Proyecto
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+El proyecto está organizado para mantener el código ordenado y fácil de escalar:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```text
+modules/
+ └── vehicles/
+      ├── domain/           # Entidades (Vehicle, Models) y Puertos (Interfaces Repository)
+      ├── application/      # Casos de uso específicos (Ej. ObtenerVehiculosUseCase)
+      ├── infrastructure/   # Implementaciones reales/mocks (Ej. API Repository)
+      └── presentation/     # Componentes visuales, Redux Store de domino y Slices
+```
+
+- **Domain:** Completamente agnóstico a dependencias externas.
+- **Application:** Reglas y casos de uso, se encarga de usar el Dominio e invocar los adaptadores.
+- **Infrastructure:** Punto de conexión con el "mundo real" (APIs ext, librerías, Bases de Datos). Provee al app un Mock Repository (`mock-vehicles.repository.impl.ts`).
+- **Presentation:** Punto en donde React JS y los Hooks hacen sus tareas.
+
+---
+
+## Decisiones Técnicas
+
+A continuación se explican algunas de las decisiones de stack más importantes de este proyecto técnico:
+
+- Se usa **Next.js (App Router)** para optimizar rutas y renderizar rápidamente.
+- **Redux Toolkit** para manejar el estado global de la app.
+- **TailwindCSS**  para estilos rápidos y consistentes.
+- Se trabaja con datos mockeados, pero la estructura permite conectar una API real fácilmente.
+- El código está separado por responsabilidades para hacerlo más fácil de mantener.
+
+---
+
+## Integración con Pasarela de Pago (Conceptual)
+
+Para integrar una pasarela de pagos en el tiempo futuro (por ejemplo: **Stripe**, **PayPal** o **MercadoPago**) respetando y exaltando esta arquitectura, la implementación (sin ver ni usar código en UI) iría de la siguiente forma:
+
+Para integrar una pasarela de pago (como Stripe, PayPal o MercadoPago), el flujo se conectaría en el paso de confirmación del alquiler.
+
+La aplicación enviaría la intención de pago desde el frontend a un servicio encargado de procesar pagos. Este servicio se comunicaría con la pasarela elegida y devolvería un resultado de éxito o error.
+
+Según la respuesta:
+
+* Si el pago es exitoso, se continúa al resumen final del alquiler.
+* Si el pago falla, se muestra un mensaje de error y se permite reintentar.
+
+La aplicación está pensada para que la pasarela de pago sea intercambiable sin afectar la interfaz ni el flujo principal del usuario
+
+---
+
+## Posibles Mejoras A Futuro
+
+- Agregar pruebas automáticas (unit tests).
+- Mantener datos entre recargas de página.
+- Mejorar filtros y parámetros en la URL.
+
+---
+
+##  Autor
+
+Prueba técnica analizada, estructurada y desarrollada por: 
+[Gabriel Cervantes](https://www.linkedin.com/in/gabriel-cervantes-hurtado).
