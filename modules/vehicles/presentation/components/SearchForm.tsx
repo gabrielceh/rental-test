@@ -2,9 +2,8 @@
 
 import { useState } from 'react';
 
-import { Input } from '@/modules/shared/ui';
+import { Input, Button } from '@/modules/shared/ui';
 import { useRouter } from 'next/navigation';
-import { Button } from '@/modules/shared/ui/Button/Button';
 
 const initialForm = {
   location: '',
@@ -14,17 +13,14 @@ const initialForm = {
 
 export default function SearchForm() {
   const [form, setForm] = useState(initialForm);
-  const [location, setLocation] = useState('');
-  const [pickup, setPickup] = useState('');
-  const [returnDate, setReturnDate] = useState('');
 
   const router = useRouter();
 
   const onSearch = () => {
     console.log('Searching for vehicles...');
-    console.log('Location:', location);
-    console.log('Pickup:', pickup);
-    console.log('Return date:', returnDate);
+    console.log('Location:', form.location);
+    console.log('Pickup:', form.pickup);
+    console.log('Return date:', form.returnDate);
 
     router.push('/results');
   };
