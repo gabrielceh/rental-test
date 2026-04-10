@@ -2,10 +2,12 @@
 
 import { useState } from 'react';
 
+import { useAppDispatch } from '@/core/store/hooks';
 import { Input, Button } from '@/modules/shared/ui';
 import { useRouter } from 'next/navigation';
 import { validateDateRange } from '@/modules/shared/utils/validate-date-range.utils';
 import { toast } from 'sonner';
+import { setSearchData } from '../stores/vehicles.slice';
 
 const initialForm = {
   location: '',
@@ -15,7 +17,7 @@ const initialForm = {
 
 export default function SearchForm() {
   const [form, setForm] = useState(initialForm);
-
+  const dispatch = useAppDispatch();
   const router = useRouter();
 
   const onSearch = () => {
@@ -29,8 +31,13 @@ export default function SearchForm() {
       toast(validateDates.error);
       return;
     }
-    console.log('Searching for vehicles...');
-    console.log({ form });
+    dispatch(
+      setSearchData({
+        city: form.location,
+        startDate: form.pickup,
+        endDate: form.returnDate,
+      }),
+    );
 
     router.push('/results');
   };

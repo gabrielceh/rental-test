@@ -1,49 +1,37 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Vehicle } from '@/modules/vehicles/domain/entities';
-import { fetchVehicles } from '@/modules/vehicles/presentation/stores/vehicles.thunk';
 
-interface VehiclesState {
-  vehicles: Vehicle[];
+interface ReservationState {
+  city: string;
+  startDate: string;
+  endDate: string;
   selectedVehicle: Vehicle | null;
-  loading: boolean;
-  error: string | null;
 }
 
-const initialState: VehiclesState = {
-  vehicles: [],
+const initialState: ReservationState = {
+  city: '',
+  startDate: '',
+  endDate: '',
   selectedVehicle: null,
-  loading: false,
-  error: null,
 };
 
 const vehiclesSlice = createSlice({
   name: 'vehicles',
   initialState,
   reducers: {
-    selectVehicle(state, action: PayloadAction<Vehicle>){
-      state.selectedVehicle = action.payload;
-    }
-  },
+    setSearchData: (state, action) => {
+      state.city = action.payload.city;
+      state.startDate = action.payload.startDate;
+      state.endDate = action.payload.endDate;
+    },
 
-  extraReducers: (builder) => {
-    builder.addCase(fetchVehicles.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    });
-    builder.addCase(fetchVehicles.fulfilled, (state, action) => {
-      state.vehicles = action.payload;
-      state.loading = false;
-      state.error = null;
-    });
-    builder.addCase(fetchVehicles.rejected, (state, action) => {
-      state.vehicles = [];
-      state.loading = false;
-      state.error = action.error.message ?? null;
-    });
+    setSelectedVehicle: (state, action: PayloadAction<Vehicle>) => {
+      state.selectedVehicle = action.payload;
+    },
   },
 });
 
 export const vehiclesReducer = vehiclesSlice.reducer;
-export const vehiclesActions = vehiclesSlice.actions;
+export const { setSearchData, setSelectedVehicle } = vehiclesSlice.actions;
 
 

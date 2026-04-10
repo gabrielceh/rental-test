@@ -1,7 +1,12 @@
+import { registerVehiclesContainer } from '@/core/di/vehicles.container';
 import { BackHeader } from '@/modules/shared/ui';
 import { ResultsContainer } from '@/modules/vehicles/presentation/containers';
 
-export default function ResultsPage() {
+export default async function ResultsPage() {
+  const { getVehiclesUseCase } = registerVehiclesContainer();
+
+  const vehicles = await getVehiclesUseCase.execute();
+
   return (
     <main className='flex flex-col gap-8'>
       <BackHeader
@@ -9,7 +14,8 @@ export default function ResultsPage() {
         path={'/'}
         ariaLabel='Volver a la página principal'
       />
-      <ResultsContainer />
+
+      <ResultsContainer vehicles={vehicles} />
     </main>
   );
 }

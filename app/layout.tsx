@@ -34,7 +34,7 @@ export default function RootLayout({
         className={clsx(dmSans.className, 'min-h-dvh flex flex-col py-16 px-8')}
       >
         <AppProviders>
-          <div className='w-full max-w-87.5 md:max-w-2xl mx-auto'>
+          <div className='w-full max-w-87.5 sm:max-w-180 md:max-w-6xl mx-auto'>
             {children}
           </div>
         </AppProviders>
