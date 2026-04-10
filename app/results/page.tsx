@@ -1,15 +1,14 @@
 import { BackHeader } from '@/modules/shared/ui';
 import { ResultsContainer } from '@/modules/vehicles/presentation/containers';
-import { redirect } from 'next/navigation';
 
 export default function ResultsPage() {
-  const goHome = () => {
-    redirect('/');
-  };
-
   return (
-    <main className=''>
-      <BackHeader title='Resultados' path={'/'} />
+    <main className='flex flex-col gap-8'>
+      <BackHeader
+        title='Resultados'
+        path={'/'}
+        ariaLabel='Volver a la página principal'
+      />
       <ResultsContainer />
     </main>
   );
