@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 
-import { Input } from '@/modules/shared/components';
+import { Input } from '@/modules/shared/ui';
 import { useRouter } from 'next/navigation';
+import { Button } from '@/modules/shared/ui/Button/Button';
 
 const initialForm = {
   location: '',
@@ -19,16 +20,14 @@ export default function SearchForm() {
 
   const router = useRouter();
 
-
   const onSearch = () => {
     console.log('Searching for vehicles...');
     console.log('Location:', location);
     console.log('Pickup:', pickup);
     console.log('Return date:', returnDate);
 
-        router.push('/results');
+    router.push('/results');
   };
-
 
   return (
     <form
@@ -37,40 +36,35 @@ export default function SearchForm() {
         onSearch();
       }}
       className='flex flex-col gap-4'
-    > 
-
+    >
       <Input
         label='Ciudad o Aeropuerto'
-        id="location"
+        id='location'
         value={form.location}
-        onChange={(e) => setForm({...form, location: e.target.value})}
+        onChange={(e) => setForm({ ...form, location: e.target.value })}
         placeholder='Ej: Barranquilla'
       />
       <section className='grid grid-cols-2 gap-4'>
+        <Input
+          label='Recogida'
+          id='pickup'
+          type='date'
+          value={form.pickup}
+          onChange={(e) => setForm({ ...form, pickup: e.target.value })}
+          placeholder='Fecha'
+        />
 
-      <Input
-        label='Recogida'
-        id="pickup"
-        type='date'
-        value={form.pickup}
-        onChange={(e) => setForm({...form, pickup: e.target.value})}
-        placeholder='Fecha'
-      />
+        <Input
+          label='Devolución'
+          id='returnDate'
+          type='date'
+          value={form.returnDate}
+          onChange={(e) => setForm({ ...form, returnDate: e.target.value })}
+          placeholder='Fecha'
+        />
+      </section>
 
-      <Input
-        label='Devolución'
-        id="returnDate"
-        type='date'
-        value={form.returnDate}
-        onChange={(e) => setForm({...form, returnDate: e.target.value})}
-        placeholder='Fecha'
-        
-      />
-        </section>
-
-
-
-      <button type="submit">Buscar</button>
+      <Button type='submit'>Buscar</Button>
     </form>
   );
 }
